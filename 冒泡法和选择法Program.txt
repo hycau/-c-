@@ -1,0 +1,104 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Chapter4
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            do
+            {
+                int n;
+                while (true)
+                {
+                    Console.Write("选择排序方法（1-冒泡法升序 2-冒泡法降序 3-选择法升序 4-选择法降序 0-退出）： ");
+                    bool ok = int.TryParse(Console.ReadLine(), out n);
+                    if (ok && n >= 0 && n <= 4)
+                            break;
+                }
+
+                int[] a = new int[10];
+
+                // 产生10个10-99的随机数放到数组中
+                Random r = new Random();
+                for (int i = 0; i < a.Length; i++)
+                    a[i] = r.Next(10, 100);
+
+                Console.Write("排序前：");
+                for (int i = 0; i < a.Length; i++)
+                    Console.Write(" {0}", a[i]);
+                Console.WriteLine();
+
+
+
+                switch(n)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        Sort1(a, true);
+                        break;
+                    case 2:
+                        Sort1(a, false);
+                        break;
+                    case 3:
+                        Sort2(a, true);
+                        break;
+                    case 4:
+                        Sort2(a, false);
+                        break;
+                }
+
+                Console.Write("排序后：");
+                for (int i = 0; i < a.Length; i++)
+                    Console.Write(" {0}", a[i]);
+
+                Console.WriteLine("\n");
+            } while (true);
+        }
+
+        // 冒泡法排序
+        static void Sort1(int[] a, bool ascend)
+        {
+            for (int i = 0; i < a.Length - 1; i++)
+            {
+                for (int j = i + 1; j < a.Length; j++)
+                {
+                    if ((ascend && a[i] > a[j]) || (!ascend && a[i] < a[j]))
+                    {
+                        // 交换a[i]和a[j]
+                        int t = a[i];
+                        a[i] = a[j];
+                        a[j] = t;
+                    }
+                }
+            }
+        }
+
+        // 选择法排序：相对于冒泡法可以减少交换次数
+        static void Sort2(int[] a, bool ascend)
+        {
+            for (int i = 0; i < a.Length - 1; i++)
+            {
+                int k = i; // k指向最小值(升序)或者最大值(降序)
+                for (int j = i+1; j < a.Length; j++)
+                {
+                    if ((ascend && a[k] > a[j]) || (!ascend && a[k] < a[j]))
+                        k = j;
+                }
+                if (k != i)
+                {
+                    // 交换a[i]和a[k]
+                    int t = a[i];
+                    a[i] = a[k];
+                    a[k] = t;
+                }
+            }
+        }
+    
+    }
+}
